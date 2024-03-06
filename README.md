@@ -1,8 +1,8 @@
 # Authenticator
 
-[![GitHub Releases](https://img.shields.io/github/v/release/nhatthm/authenticator)](https://github.com/nhatthm/authenticator/releases/latest)
-[![Build Status](https://github.com/nhatthm/authenticator/actions/workflows/test.yaml/badge.svg)](https://github.com/nhatthm/authenticator/actions/workflows/test.yaml)
-[![codecov](https://codecov.io/gh/nhatthm/authenticator/branch/master/graph/badge.svg?token=eTdAgDE2vR)](https://codecov.io/gh/nhatthm/authenticator)
+[![GitHub Releases](https://img.shields.io/github/v/release/nhatthm/go-authenticator)](https://github.com/nhatthm/go-authenticator/releases/latest)
+[![Build Status](https://github.com/nhatthm/go-authenticator/actions/workflows/test.yaml/badge.svg)](https://github.com/nhatthm/go-authenticator/actions/workflows/test.yaml)
+[![codecov](https://codecov.io/gh/nhatthm/go-authenticator/branch/master/graph/badge.svg?token=eTdAgDE2vR)](https://codecov.io/gh/nhatthm/go-authenticator)
 [![Go Report Card](https://goreportcard.com/badge/go.nhat.io/authenticator)](https://goreportcard.com/report/go.nhat.io/authenticator)
 [![GoDevDoc](https://img.shields.io/badge/dev-doc-00ADD8?logo=go)](https://pkg.go.dev/go.nhat.io/authenticator)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=PJZSGJN57TDJY)
