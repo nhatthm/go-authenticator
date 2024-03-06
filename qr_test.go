@@ -3,6 +3,7 @@ package authenticator_test
 import (
 	_ "image/jpeg"
 	_ "image/png"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -26,7 +27,8 @@ func TestParseTOTPQRCode_FileNotFound(t *testing.T) {
 	t.Parallel()
 
 	secret, label, issuer, err := authenticator.ParseTOTPQRCode("resources/fixtures/not_found.png")
-	require.EqualError(t, err, `failed to qr code file: open resources/fixtures/not_found.png: no such file or directory`)
+	require.ErrorContains(t, err, `failed to qr code file`)
+	require.ErrorIs(t, err, os.ErrNotExist)
 
 	assert.Empty(t, secret)
 	assert.Empty(t, label)
