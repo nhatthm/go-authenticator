@@ -13,7 +13,7 @@ Manage and generate one-time passwords for multiple accounts.
 
 - `Go >= 1.22`
 
-### Keyring (Optional)
+### Keyring
 
 Support **OS X**, **Linux/BSD (dbus)** and **Windows**.
 
