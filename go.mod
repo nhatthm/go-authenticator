@@ -3,6 +3,7 @@ module go.nhat.io/authenticator
 go 1.22
 
 require (
+	github.com/bool64/ctxd v1.2.1
 	github.com/makiuchi-d/gozxing v0.1.1
 	github.com/pelletier/go-toml/v2 v2.1.1
 	github.com/stretchr/testify v1.9.0
@@ -14,7 +15,6 @@ require (
 
 require (
 	github.com/alessio/shellescape v1.4.2 // indirect
-	github.com/bool64/ctxd v1.2.1 // indirect
 	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/danieljoos/wincred v1.2.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
