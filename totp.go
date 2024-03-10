@@ -29,8 +29,8 @@ func GenerateTOTP(ctx context.Context, namespace, account string, opts ...Genera
 
 	if c.secretGetter == nil {
 		c.secretGetter = otp.ChainTOTPSecretGetters(
-			otp.TOTPSecretFromEnv(envTOTPSecret),
-			newTOTPSecretGetter(namespace, account, c.logger),
+			TOTPSecretFromEnv(),
+			TOTPSecretFromAccount(namespace, account, WithLogger(c.logger)),
 		)
 	}
 
@@ -62,13 +62,6 @@ func WithTOTPSecretGetter(secretGetter otp.TOTPSecretGetter) GenerateTOTPOption 
 	})
 }
 
-// WithLogger sets the logger to use.
-func WithLogger(logger ctxd.Logger) GenerateTOTPOption {
-	return generateTOTPOptionFunc(func(cfg *generateTOTPConfig) {
-		cfg.logger = logger
-	})
-}
-
 // WithClock sets the clock to use.
 func WithClock(clock clock.Clock) GenerateTOTPOption {
 	return generateTOTPOptionFunc(func(cfg *generateTOTPConfig) {
@@ -76,7 +69,13 @@ func WithClock(clock clock.Clock) GenerateTOTPOption {
 	})
 }
 
-type totpSecretGetter struct {
+// TOTPSecretFromEnv returns a TOTP secret from the environment.
+func TOTPSecretFromEnv() otp.TOTPSecretGetter {
+	return otp.TOTPSecretFromEnv(envTOTPSecret)
+}
+
+// TOTPSecretGetter gets the TOTP secret.
+type TOTPSecretGetter struct {
 	logger ctxd.Logger
 
 	namespace string
@@ -85,14 +84,22 @@ type totpSecretGetter struct {
 	fetchOnce sync.Once
 }
 
-func (s *totpSecretGetter) fetch(ctx context.Context) otp.TOTPSecret {
-	if s.namespace == "" || s.account == "" {
+func (s *TOTPSecretGetter) fetch(ctx context.Context) otp.TOTPSecret {
+	ctx = ctxd.AddFields(ctx, "namespace", s.namespace, "account", s.account)
+
+	if s.namespace == "" {
+		s.logger.Debug(ctx, "failed to fetch totp secret due to missing namespace")
+
+		return otp.NoTOTPSecret
+	} else if s.account == "" {
+		s.logger.Debug(ctx, "failed to fetch totp secret due to missing account")
+
 		return otp.NoTOTPSecret
 	}
 
 	a, err := GetAccount(s.namespace, s.account)
 	if err != nil {
-		s.logger.Error(ctx, "could not get totp secret", "error", err, "namespace", s.namespace, "account", s.account)
+		s.logger.Error(ctx, "could not get totp secret", "error", err)
 
 		return otp.NoTOTPSecret
 	}
@@ -101,7 +108,7 @@ func (s *totpSecretGetter) fetch(ctx context.Context) otp.TOTPSecret {
 }
 
 // TOTPSecret returns the TOTP secret from the keyring.
-func (s *totpSecretGetter) TOTPSecret(ctx context.Context) otp.TOTPSecret {
+func (s *TOTPSecretGetter) TOTPSecret(ctx context.Context) otp.TOTPSecret {
 	s.fetchOnce.Do(func() {
 		s.secret = s.fetch(ctx)
 	})
@@ -109,10 +116,28 @@ func (s *totpSecretGetter) TOTPSecret(ctx context.Context) otp.TOTPSecret {
 	return s.secret
 }
 
-func newTOTPSecretGetter(namespace, account string, logger ctxd.Logger) otp.TOTPSecretGetter {
-	return &totpSecretGetter{
-		logger:    logger,
+// TOTPSecretFromAccount returns a TOTP secret getter for the given account.
+func TOTPSecretFromAccount(namespace, account string, opts ...TOTPSecretGetterOption) otp.TOTPSecretGetter {
+	g := &TOTPSecretGetter{
+		logger:    ctxd.NoOpLogger{},
 		namespace: namespace,
 		account:   account,
 	}
+
+	for _, opt := range opts {
+		opt.applyTOTPSecretGetterOption(g)
+	}
+
+	return g
+}
+
+// TOTPSecretGetterOption is an option to configure TOTPSecretGetter.
+type TOTPSecretGetterOption interface {
+	applyTOTPSecretGetterOption(g *TOTPSecretGetter)
+}
+
+type totpSecretGetterOptionFunc func(g *TOTPSecretGetter)
+
+func (f totpSecretGetterOptionFunc) applyTOTPSecretGetterOption(g *TOTPSecretGetter) {
+	f(g)
 }
