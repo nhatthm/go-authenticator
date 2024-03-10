@@ -52,9 +52,9 @@ For example
 namespace = ["namespace1", "namespace2"]
 ```
 
-The namespace data, such as namespace name, and accounts are stored in the keyring in `go.nhat.io/authenticator` service.
+The namespace data, such as namespace name, and accounts are stored in the keyring in `go.nhat.io/authenticator` service and `<namespace>` key.
 
-The totp secret of each account is stored in the keyring in `go.nhat.io/otp` service and `<namespace>/<account>` key.
+The totp secret of each account is stored in the keyring in `go.nhat.io/authenticator` service and `<namespace>/<account>` key.
 
 ## Donation
 
