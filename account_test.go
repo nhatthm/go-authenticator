@@ -180,7 +180,7 @@ func TestSetAccount_FailedToSet(t *testing.T) {
 	})
 
 	err := authenticator.SetAccount(t.Name(), authenticator.Account{Name: "john.doe@example.com"})
-	require.EqualError(t, err, `failed to create account john.doe@example.com in namespace TestSetAccount_FailedToSet: assert.AnError general error for testing`)
+	require.EqualError(t, err, `failed to store account john.doe@example.com in namespace TestSetAccount_FailedToSet: assert.AnError general error for testing`)
 }
 
 func TestSetAccount_NamespaceNotExists(t *testing.T) {
