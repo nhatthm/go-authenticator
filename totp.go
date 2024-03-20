@@ -2,6 +2,7 @@ package authenticator
 
 import (
 	"context"
+	"errors"
 	"sync"
 
 	"github.com/bool64/ctxd"
@@ -70,21 +71,25 @@ func WithClock(clock clock.Clock) GenerateTOTPOption {
 }
 
 // TOTPSecretFromEnv returns a TOTP secret from the environment.
-func TOTPSecretFromEnv() otp.TOTPSecretGetter {
+func TOTPSecretFromEnv() otp.TOTPSecretProvider {
 	return otp.TOTPSecretFromEnv(envTOTPSecret)
 }
 
-// TOTPSecretGetter gets the TOTP secret.
-type TOTPSecretGetter struct {
+var _ otp.TOTPSecretProvider = (*TOTPSecretProvider)(nil)
+
+// TOTPSecretProvider manages the TOTP secret.
+type TOTPSecretProvider struct {
 	logger ctxd.Logger
 
 	namespace string
 	account   string
 	secret    otp.TOTPSecret
+
+	mu        sync.Mutex
 	fetchOnce sync.Once
 }
 
-func (s *TOTPSecretGetter) fetch(ctx context.Context) otp.TOTPSecret {
+func (s *TOTPSecretProvider) fetch(ctx context.Context) otp.TOTPSecret {
 	ctx = ctxd.AddFields(ctx, "namespace", s.namespace, "account", s.account)
 
 	if s.namespace == "" {
@@ -108,7 +113,10 @@ func (s *TOTPSecretGetter) fetch(ctx context.Context) otp.TOTPSecret {
 }
 
 // TOTPSecret returns the TOTP secret from the keyring.
-func (s *TOTPSecretGetter) TOTPSecret(ctx context.Context) otp.TOTPSecret {
+func (s *TOTPSecretProvider) TOTPSecret(ctx context.Context) otp.TOTPSecret {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	s.fetchOnce.Do(func() {
 		s.secret = s.fetch(ctx)
 	})
@@ -116,28 +124,68 @@ func (s *TOTPSecretGetter) TOTPSecret(ctx context.Context) otp.TOTPSecret {
 	return s.secret
 }
 
+// SetTOTPSecret sets the TOTP secret to the keyring.
+func (s *TOTPSecretProvider) SetTOTPSecret(_ context.Context, secret otp.TOTPSecret, issuer string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	err := CreateNamespace(s.namespace, s.namespace)
+	if err != nil && !errors.Is(err, ErrNamespaceExists) {
+		return err
+	}
+
+	account, err := GetAccount(s.namespace, s.account)
+	if err != nil {
+		if !errors.Is(err, ErrAccountNotFound) {
+			return err
+		}
+
+		account = Account{Name: s.account}
+	}
+
+	s.fetchOnce.Do(func() {})
+
+	account.TOTPSecret = secret
+	account.Issuer = issuer
+	s.secret = secret
+
+	return SetAccount(s.namespace, account)
+}
+
+// DeleteTOTPSecret deletes the TOTP secret from the keyring.
+func (s *TOTPSecretProvider) DeleteTOTPSecret(context.Context) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.fetchOnce.Do(func() {})
+
+	s.secret = otp.NoTOTPSecret
+
+	return DeleteAccount(s.namespace, s.account)
+}
+
 // TOTPSecretFromAccount returns a TOTP secret getter for the given account.
-func TOTPSecretFromAccount(namespace, account string, opts ...TOTPSecretGetterOption) otp.TOTPSecretGetter {
-	g := &TOTPSecretGetter{
+func TOTPSecretFromAccount(namespace, account string, opts ...TOTPSecretProviderOption) *TOTPSecretProvider {
+	p := &TOTPSecretProvider{
 		logger:    ctxd.NoOpLogger{},
 		namespace: namespace,
 		account:   account,
 	}
 
 	for _, opt := range opts {
-		opt.applyTOTPSecretGetterOption(g)
+		opt.applyTOTPSecretProviderOption(p)
 	}
 
-	return g
+	return p
 }
 
-// TOTPSecretGetterOption is an option to configure TOTPSecretGetter.
-type TOTPSecretGetterOption interface {
-	applyTOTPSecretGetterOption(g *TOTPSecretGetter)
+// TOTPSecretProviderOption is an option to configure TOTPSecretProvider.
+type TOTPSecretProviderOption interface {
+	applyTOTPSecretProviderOption(p *TOTPSecretProvider)
 }
 
-type totpSecretGetterOptionFunc func(g *TOTPSecretGetter)
+type totpSecretProviderOptionFunc func(p *TOTPSecretProvider)
 
-func (f totpSecretGetterOptionFunc) applyTOTPSecretGetterOption(g *TOTPSecretGetter) {
-	f(g)
+func (f totpSecretProviderOptionFunc) applyTOTPSecretProviderOption(p *TOTPSecretProvider) {
+	f(p)
 }

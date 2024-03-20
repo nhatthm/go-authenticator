@@ -51,11 +51,11 @@ func (a Account) MarshalText() (text []byte, err error) {
 }
 
 // GetAccount returns the account.
-func GetAccount(namespaceID, account string) (Account, error) {
+func GetAccount(namespace, account string) (Account, error) {
 	configMu.RLock()
 	defer configMu.RUnlock()
 
-	return getAccount(namespaceID, account)
+	return getAccount(namespace, account)
 }
 
 func getAccount(namespace string, account string) (Account, error) {
@@ -98,7 +98,7 @@ func SetAccount(namespace string, account Account) error {
 
 func setAccount(namespace string, account Account) error {
 	if err := accountStorage.Set(serviceName, formatAccount(namespace, account.Name), account); err != nil {
-		return fmt.Errorf("failed to create account %s in namespace %s: %w", account.Name, namespace, err)
+		return fmt.Errorf("failed to store account %s in namespace %s: %w", account.Name, namespace, err)
 	}
 
 	return nil
@@ -152,6 +152,6 @@ func SetAccountStorage(s secretstorage.Storage[Account]) func() {
 	}
 }
 
-func formatAccount(namespaceID, account string) string {
-	return fmt.Sprintf("%s/%s", namespaceID, account)
+func formatAccount(namespace, account string) string {
+	return fmt.Sprintf("%s/%s", namespace, account)
 }

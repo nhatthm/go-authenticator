@@ -5,12 +5,12 @@ import "github.com/bool64/ctxd"
 // Option is a configuration option for services provided by this package.
 type Option interface {
 	GenerateTOTPOption
-	TOTPSecretGetterOption
+	TOTPSecretProviderOption
 }
 
 type option struct {
 	GenerateTOTPOption
-	TOTPSecretGetterOption
+	TOTPSecretProviderOption
 }
 
 // WithLogger sets the logger to use.
@@ -19,8 +19,8 @@ func WithLogger(logger ctxd.Logger) Option {
 		GenerateTOTPOption: generateTOTPOptionFunc(func(cfg *generateTOTPConfig) {
 			cfg.logger = logger
 		}),
-		TOTPSecretGetterOption: totpSecretGetterOptionFunc(func(g *TOTPSecretGetter) {
-			g.logger = logger
+		TOTPSecretProviderOption: totpSecretProviderOptionFunc(func(p *TOTPSecretProvider) {
+			p.logger = logger
 		}),
 	}
 }
