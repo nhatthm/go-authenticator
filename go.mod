@@ -8,7 +8,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.0
 	github.com/stretchr/testify v1.9.0
 	go.nhat.io/clock v0.7.0
-	go.nhat.io/otp v0.8.0
+	go.nhat.io/otp v0.9.0
 	go.nhat.io/secretstorage v0.4.0
 	go.uber.org/multierr v1.11.0
 )
