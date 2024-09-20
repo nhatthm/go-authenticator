@@ -23,8 +23,8 @@ require (
 	github.com/pquerna/otp v1.4.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/zalando/go-keyring v0.2.5 // indirect
-	golang.org/x/sys v0.24.0 // indirect
-	golang.org/x/text v0.17.0 // indirect
-	golang.org/x/xerrors v0.0.0-20240716161551-93cc26a95ae9 // indirect
+	golang.org/x/sys v0.25.0 // indirect
+	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
