@@ -104,7 +104,11 @@ func (s *TOTPSecretProvider) fetch(ctx context.Context) otp.TOTPSecret {
 
 	a, err := GetAccount(s.namespace, s.account)
 	if err != nil {
-		s.logger.Error(ctx, "could not get totp secret", "error", err)
+		if errors.Is(err, ErrAccountNotFound) {
+			s.logger.Debug(ctx, "could not get totp secret", "error", err)
+		} else {
+			s.logger.Error(ctx, "could not get totp secret", "error", err)
+		}
 
 		return otp.NoTOTPSecret
 	}
