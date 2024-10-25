@@ -1,6 +1,5 @@
 al.essio.dev/pkg/shellescape v1.5.1 h1:86HrALUujYS/h+GtqoB26SBEdkWfmMI6FubjXlsXyho=
 al.essio.dev/pkg/shellescape v1.5.1/go.mod h1:6sIqp7X2P6mThCQ7twERpZTuigpr6KbZWtls1U8I890=
-github.com/alessio/shellescape v1.4.2/go.mod h1:PZAiSCk0LJaZkiCSkPv8qIobYglO3FPpyFjDCtHLS30=
 github.com/bool64/ctxd v1.2.1 h1:hARFteq0zdn4bwfmxLhak3fXFuvtJVKDH2X29VV/2ls=
 github.com/bool64/ctxd v1.2.1/go.mod h1:ZG6QkeGVLTiUl2mxPpyHmFhDzFZCyocr9hluBV3LYuc=
 github.com/bool64/dev v0.2.24 h1:xptlKivPh870W3Xc9szPcM7wkFmTMuHT8rc0nu7dITk=
@@ -41,8 +40,8 @@ github.com/zalando/go-keyring v0.2.6 h1:r7Yc3+H+Ux0+M72zacZoItR3UDxeWfKTcabvkI8u
 github.com/zalando/go-keyring v0.2.6/go.mod h1:2TCrxYrbUNYfNS/Kgy/LSrkSQzZ5UPVH85RwfczwvcI=
 go.nhat.io/clock v0.7.0 h1:L3t8s+bOqqMXlGcv2qgKhIHBFqYS7rB84gYOHl4F7iA=
 go.nhat.io/clock v0.7.0/go.mod h1:95+ixhxejL/vGxvfiJnrEh19gr03GLyJcTZo7UDr6kA=
-go.nhat.io/otp v0.9.0 h1:C4l9DHyDfNA1sKBIzBoa83+vst18tDuQT8nd97jYEQ4=
-go.nhat.io/otp v0.9.0/go.mod h1:NTP6mz9aqQXC4CPPPHjq5qm+X9QXgqL8Z7AzIyfHKyo=
+go.nhat.io/otp v0.10.0 h1:sQiJKqDL86tz3qPcGgGFDhcGJni7sc+v4j8NxMrRMxM=
+go.nhat.io/otp v0.10.0/go.mod h1:BiEJJfLLhFyrVLEcUwKVqAfEw9M+1cg6HRK1gayAix8=
 go.nhat.io/secretstorage v0.5.0 h1:uaNxQ+1gbdh5RDaQqYvGCPTc5lXfhTU/bRc3nyiei0w=
 go.nhat.io/secretstorage v0.5.0/go.mod h1:feu4OLv9yR8TbRTCrNEZYMR4EgnYUWWF9w+Q7Ch1HQ8=
 go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
