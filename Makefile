@@ -3,7 +3,7 @@ MODULE_NAME=authenticator
 VENDOR_DIR = vendor
 
 GOLANGCI_LINT_VERSION ?= v1.61.0
-MOCKERY_VERSION ?= v2.45.0
+MOCKERY_VERSION ?= v2.46.3
 
 GO ?= go
 GOLANGCI_LINT ?= $(shell go env GOPATH)/bin/golangci-lint-$(GOLANGCI_LINT_VERSION)
