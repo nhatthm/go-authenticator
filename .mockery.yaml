@@ -7,4 +7,5 @@ outpkg: mock
 packages:
   go.nhat.io/authenticator:
     config:
-      all: true
+      include-regex: ".+"
+      exclude-regex: "Option|.+(Func|Option)"
