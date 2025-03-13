@@ -2,8 +2,8 @@ MODULE_NAME=authenticator
 
 VENDOR_DIR = vendor
 
-GOLANGCI_LINT_VERSION ?= v1.61.0
-MOCKERY_VERSION ?= v2.46.3
+GOLANGCI_LINT_VERSION ?= v1.64.7
+MOCKERY_VERSION ?= v2.53.2
 
 GO ?= go
 GOLANGCI_LINT ?= $(shell go env GOPATH)/bin/golangci-lint-$(GOLANGCI_LINT_VERSION)
@@ -13,6 +13,14 @@ MOCKERY ?= $(shell go env GOPATH)/bin/mockery-$(MOCKERY_VERSION)
 $(VENDOR_DIR):
 	@mkdir -p $(VENDOR_DIR)
 	@$(GO) mod vendor
+	@$(GO) mod tidy
+
+.PHONY: update
+update:
+	@$(GO) get -u ./...
+
+.PHONY: tidy
+tidy:
 	@$(GO) mod tidy
 
 .PHONY: generate
