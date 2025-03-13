@@ -12,8 +12,6 @@ linters-settings:
     threshold: 100
   misspell:
     locale: US
-  unused:
-    check-exported: false
   unparam:
     check-exported: true
 
@@ -21,14 +19,11 @@ linters:
   enable-all: true
   disable:
     - depguard
-    - execinquery
     - exhaustruct
-    - exportloopref
     - forbidigo
     - forcetypeassert
     - gci
     - gochecknoglobals
-    - gomnd
     - ireturn
     - lll
     - mnd
@@ -38,6 +33,7 @@ linters:
     - perfsprint
     - tagalign
     - tagliatelle
+    - tenv
     - testpackage
     - varnamelen
     - wrapcheck
@@ -48,9 +44,9 @@ issues:
   exclude-rules:
     - linters:
         - dupl
+        - err113
         - funlen
         - goconst
-        - goerr113
-        - gomnd
+        - mnd
         - noctx
       path: "_test.go"

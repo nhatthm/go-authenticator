@@ -11,7 +11,7 @@ Manage and generate one-time passwords for multiple accounts.
 
 ## Prerequisites
 
-- `Go >= 1.22`
+- `Go >= 1.23`
 
 ### Keyring
 
