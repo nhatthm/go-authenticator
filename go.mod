@@ -10,7 +10,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.3
 	github.com/stretchr/testify v1.10.0
 	go.nhat.io/clock v0.7.0
-	go.nhat.io/otp v0.10.0
+	go.nhat.io/otp v0.11.0
 	go.nhat.io/secretstorage v0.5.0
 	go.uber.org/multierr v1.11.0
 )
