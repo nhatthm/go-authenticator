@@ -7,7 +7,7 @@ toolchain go1.23.5
 require (
 	github.com/bool64/ctxd v1.2.1
 	github.com/makiuchi-d/gozxing v0.1.1
-	github.com/pelletier/go-toml/v2 v2.2.3
+	github.com/pelletier/go-toml/v2 v2.2.4
 	github.com/stretchr/testify v1.10.0
 	go.nhat.io/clock v0.7.0
 	go.nhat.io/otp v0.11.0
