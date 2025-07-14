@@ -43,7 +43,7 @@ func ParseTOTPQRCode(path string) (Account, error) {
 
 // GenerateTOTPQRCode generates a TOTP QR code for the given account.
 func GenerateTOTPQRCode(path string, account Account, width, height int, listOfHints ...map[gozxing.EncodeHintType]any) error {
-	f, err := os.OpenFile(filepath.Clean(path), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o600) //nolint: gomnd
+	f, err := os.OpenFile(filepath.Clean(path), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o600) //nolint: mnd
 	if err != nil {
 		return fmt.Errorf("failed to create qr code file: %w", err)
 	}
@@ -69,7 +69,7 @@ func DecodeTOTPQRCode(r io.Reader) (Account, error) {
 	}
 
 	if !strings.Contains(result.String(), totpAuthProtocol) {
-		return Account{}, fmt.Errorf("invalid totpauth uri: %s", result.String()) //nolint: goerr113
+		return Account{}, fmt.Errorf("invalid totpauth uri: %s", result.String()) //nolint: err113
 	}
 
 	u, err := url.Parse(result.String())
