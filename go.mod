@@ -8,10 +8,10 @@ require (
 	github.com/bool64/ctxd v1.2.1
 	github.com/makiuchi-d/gozxing v0.1.1
 	github.com/pelletier/go-toml/v2 v2.2.4
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	go.nhat.io/clock v0.7.0
 	go.nhat.io/otp v0.11.0
-	go.nhat.io/secretstorage v0.5.0
+	go.nhat.io/secretstorage v0.6.0
 	go.uber.org/multierr v1.11.0
 )
 
@@ -25,7 +25,7 @@ require (
 	github.com/pquerna/otp v1.5.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/zalando/go-keyring v0.2.6 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.35.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
